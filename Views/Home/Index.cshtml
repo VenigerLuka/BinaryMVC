@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<header>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+z0I5t9z5lJoL5Wv5ep5Bnu1RZFDo7V9QpKwakF" crossorigin="anonymous"></script>
+
+</header>
+<body>
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Welcome to the Binary to decimal Convertor</p>
+        <p>Use the counter to increase the number size from 4 to 8</p>
+    </div>
+    <input id="dialer" type="number" min="4" max="8" onchange="renderInputFields()" value="4" />
+    <form id="binaryForm" method="post" action="ConvertToDecimal">
+        <div id="dialerBox">
+        </div>
+        <button type="submit">Convert</button>
+    </form>
+    <div id="result">
+    </div>
+</body>
+@section Scripts{
+    <script src="~/js/dinamicdialer.js"></script>
+    <script>
+        renderInputFields();
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#binaryForm").submit(function (event) {
+                event.preventDefault();
+                $.ajax({
+                    url: '/ConvertToDecimal',
+                    type: 'POST',
+                    data: $(this).serialize(),
+                    success: function (response) {
+                        $('#result').text('Decimal Number: ' + response.decimalNumber);
+                    }
+                });
+            });
+        });
+    </script>
+
+}
